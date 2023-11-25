@@ -1,10 +1,6 @@
 <?php
-    if (!isset($_SESSION)) {
-        session_start();
-    }    
-
     $db_host = "localhost";
-    $db_name = "java_app";
+    $db_name = "smanbi";
     $user = "root";
     $pwd = "";
 

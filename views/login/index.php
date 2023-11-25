@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../../public/css/output.css">
 </head>
 <body>
-    <section class="bg-default">
+    <section class="bg-default h-screen w-screen">
         <div class="grid place-items-center justify-center h-full py-12">
             <div class="w-32 h-32 p-4 m-auto bg-slate-50 rounded-full">
                 <img src="../../public/images/logo.png" class="w-20 m-auto" alt="">

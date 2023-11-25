@@ -25,12 +25,16 @@ body{
     @apply bg-gray-50 border border-gray-300 text-gray-900 rounded-lg  focus:invalid:ring-red-500 focus:invalid:border-red-500 block w-full px-4 py-5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-lg
 }
 
+.inputBiasa{
+    @apply bg-gray-50 border border-gray-300 text-gray-900 rounded-lg  focus:invalid:ring-red-500 focus:invalid:border-red-500 w-full px-4 py-5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-lg
+}
+
 .titleLogin{
     @apply max-w-prose w-[32ch] text-center text-white font-jb text-3xl
 }
 
 .bg-default{
-    @apply h-screen w-screen bg-gradient-to-tr from-[#003680] to-[#FF6868]
+    @apply  bg-gradient-to-tr from-[#003680] to-[#FF6868]
 }
 
 .searchBar {
@@ -59,5 +63,5 @@ body{
 }
 
 .tableRow{
-    @apply odd:bg-white even:bg-gray-50 border-b
+    @apply even:bg-gray-50 even:dark:bg-gray-700
 }
