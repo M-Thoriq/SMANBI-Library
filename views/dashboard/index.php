@@ -1,3 +1,12 @@
+<?php
+require_once("../../includes/koneksi.php");
+
+$jumlahJudul = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS JLH FROM buku;"))['JLH'];
+$jumlahPengunjung = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS JLH FROM log_pengunjung;"))['JLH'];
+$jumlahBuku = mysqli_fetch_assoc(mysqli_query($conn, "SELECT SUM(eksemplar) AS JLH FROM buku;"))['JLH'];
+$jumlahPeminjaman = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS JLH FROM peminjaman_buku;"))['JLH']; 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,17 +20,17 @@
   <script src="../../public/js/pengunjung.js"></script>
 </head>
 <body>
-  <div class="rounded-r-md grid  gap-5 fixed top-0 left-0 text-white bg-indigo-950 h-screen w-1/4 pe-4 py-4 -translate-x-full ease-in-out transition-all duration-500" id="drawer">
+  <div class="rounded-r-md grid  gap-5 fixed top-0 left-0 text-white bg-indigo-950 h-screen w-1/4 px-4 py-4 -translate-x-full ease-in-out transition-all duration-500" id="drawer">
     
     <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
       <div class="w-22 h-22 my-8 mx-auto p-2 bg-slate-50 rounded-full shadow-md">
-        <a href="index.html" class="flex"><img src="../../public/images/logo.png" class="w-10 mx-5" alt="">
+        <a href="./" class="flex"><img src="../../public/images/logo.png" class="w-10 mx-5" alt="">
           <span class="text-lg text-center font-bold text-gray-950 font-jb max-w-prose">Sistem Informasi Perpustakaan</span>
         </a>
       </div>
       <ul class="space-y-2 font-medium">
          <li class="">
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <a href="./" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
                   <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z"/>
                   <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z"/>
@@ -29,7 +38,7 @@
                <span class="ms-3">Dashboard</span>
             </a>
          </li>
-        <li class="text-lg border-b p-2 flex items-center">
+        <li class="text-lg border-b p-2 flex items-center text-gray-900">
           <svg class="me-3 flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
             <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z"/>
           </svg>
@@ -37,7 +46,7 @@
         </li>
          
          <li>
-            <a href="../buku/index.html" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <a href="../buku/index.php" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                <span class="flex-1 ms-3 break-all whitespace-nowrap">List Buku</span>
             </a>
          </li>
@@ -46,7 +55,7 @@
                <span class="flex-1 ms-3 whitespace-nowrap">Tambah Buku</span>
             </a>
          </li>
-        <li class="text-lg border-b p-2 flex items-center">
+        <li class="text-lg border-b p-2 flex items-center text-slate-950">
           <svg class="me-3 flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
             <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"/>
          </svg>
@@ -80,35 +89,36 @@
     </div>
 </div>
 <section class="bg-default p-5 min-h-screen">
-  <div class="p-4 bg-gray-700 rounded-xl flex gap-2 mb-5">
-  <div class="w-full flex justify-between p-2 bg-gray-800 rounded-lg">
-    <div class="grid">
-        <h3 class="text-xl font-normal text-gray-500 dark:text-gray-400">Judul Buku</h3>
-        <span class="text-5xl font-bold leading-none text-gray-900 dark:text-white">2,340</span>
+  <div class="p-4 dark:bg-gray-700 bg-slate-50 rounded-xl flex gap-2 mb-5">
+    <div class="w-full flex justify-between p-2 bg-slate-400 dark:bg-gray-800 rounded-lg">
+      <div class="grid">
+          <h3 class="text-xl font-normal text-black dark:text-gray-400">Judul Buku</h3>
+          <span class="text-5xl font-bold leading-none text-gray-900 dark:text-white"><?=$jumlahJudul ?></span>
+      </div>
+        <img src="../../public/images/buku.svg" class="w-12" alt="">
     </div>
-      <img src="../../public/images/buku.svg" class="w-12" alt="">
-  </div>
-  <div class="w-full flex justify-between p-2 bg-gray-800 rounded-lg">
-    <div class="grid">
-        <h3 class="text-xl font-normal text-gray-500 dark:text-gray-400">Judul Buku</h3>
-        <span class="text-5xl font-bold leading-none text-gray-900 dark:text-white">2,340</span>
+    <div class="w-full flex justify-between p-2 bg-slate-400 dark:bg-gray-800 rounded-lg">
+      <div class="grid">
+          <h3 class="text-xl font-normal text-black dark:text-gray-400">Eksemplar</h3>
+          <span class="text-5xl font-bold leading-none text-gray-900 dark:text-white"><?=$jumlahBuku?></span>
+      </div>
+        <img src="../../public/images/eksemplr.svg" class="w-12" alt="">
     </div>
-      <img src="../../public/images/buku.svg" class="w-12" alt="">
-  </div>
-  <div class="w-full flex justify-between p-2 bg-gray-800 rounded-lg">
-    <div class="grid">
-        <h3 class="text-xl font-normal text-gray-500 dark:text-gray-400">Judul Buku</h3>
-        <span class="text-5xl font-bold leading-none text-gray-900 dark:text-white">2,340</span>
+    <div class="w-full flex justify-between p-2 bg-slate-400 dark:bg-gray-800 rounded-lg">
+      <div class="grid">
+          <h3 class="text-xl font-normal text-black dark:text-gray-400">Pengunjung</h3>
+          <span class="text-5xl font-bold leading-none text-gray-900 dark:text-white"><?=$jumlahPengunjung?></span>
+      </div>
+        <img src="../../public/images/pengunjung.svg" class="w-16" alt="">
     </div>
-      <img src="../../public/images/buku.svg" class="w-12" alt="">
-  </div>
-  <div class="w-full flex justify-between p-2 bg-gray-800 rounded-lg">
-    <div class="grid">
-        <h3 class="text-xl font-normal text-gray-500 dark:text-gray-400">Judul Buku</h3>
-        <span class="text-5xl font-bold leading-none text-gray-900 dark:text-white">2,340</span>
+    <div class="relative w-full flex justify-between p-2 bg-slate-400 dark:bg-gray-800 rounded-lg">
+      <div class="bg-red-600 animate-ping rounded-full w-2 h-2 absolute -top-1 -right-1 p-2"></div>
+      <div class="grid">
+          <h3 class="text-xl font-normal text-black dark:text-gray-400">Buku Dipinjam</h3>
+          <span class="text-5xl font-bold leading-none text-gray-900 dark:text-white"><?=$jumlahPeminjaman?></span>
+      </div>
+        <img src="../../public/images/pinjam.svg" class="w-14" alt="">
     </div>
-      <img src="../../public/images/buku.svg" class="w-12" alt="">
-  </div>
   </div>
   <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 min-h-[70vh]">
     <!-- Card header -->
@@ -119,57 +129,9 @@
       </div>
       <div class="items-center sm:flex">
         <div class="flex items-center">
-          <button id="dropdownDefault" data-dropdown-toggle="dropdown"
-            class="mb-4 sm:mb-0 mr-4 inline-flex items-center text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-4 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-            type="button">
-            Urutkan
-            <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-          </button>
-          <!-- Dropdown menu -->
-          <div id="dropdown" class="z-10 hidden w-56 p-3 bg-white rounded-lg shadow dark:bg-indigo-950">
-            <ul class="space-y-2 text-sm" aria-labelledby="dropdownDefault">
-              <li class="flex items-center">
-                <input id="apple" type="radio" name="urutan" value="" checked class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-        
-                <label for="apple" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                  Descending (default)
-                </label>
-              </li>
-        
-              <li class="flex items-center">
-                <input id="fitbit" type="radio" name="urutan" value=""  class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-        
-                <label for="fitbit" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                  Ascending
-                </label>
-              </li>
-        
-            </ul>
-          </div>
+          
         </div>
-        <div date-rangepicker class="flex items-center space-x-4">
-          <div class="relative">
-            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M5.25 12a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H6a.75.75 0 01-.75-.75V12zM6 13.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V14a.75.75 0 00-.75-.75H6zM7.25 12a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H8a.75.75 0 01-.75-.75V12zM8 13.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V14a.75.75 0 00-.75-.75H8zM9.25 10a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H10a.75.75 0 01-.75-.75V10zM10 11.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V12a.75.75 0 00-.75-.75H10zM9.25 14a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H10a.75.75 0 01-.75-.75V14zM12 9.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V10a.75.75 0 00-.75-.75H12zM11.25 12a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H12a.75.75 0 01-.75-.75V12zM12 13.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V14a.75.75 0 00-.75-.75H12zM13.25 10a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H14a.75.75 0 01-.75-.75V10zM14 11.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V12a.75.75 0 00-.75-.75H14z"></path>
-                <path clip-rule="evenodd" fill-rule="evenodd" d="M5.75 2a.75.75 0 01.75.75V4h7V2.75a.75.75 0 011.5 0V4h.25A2.75 2.75 0 0118 6.75v8.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25v-8.5A2.75 2.75 0 014.75 4H5V2.75A.75.75 0 015.75 2zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75z"></path>
-              </svg>
-            </div>
-            <input name="start" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="From">
-          </div>
-          <div class="relative">
-            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M5.25 12a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H6a.75.75 0 01-.75-.75V12zM6 13.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V14a.75.75 0 00-.75-.75H6zM7.25 12a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H8a.75.75 0 01-.75-.75V12zM8 13.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V14a.75.75 0 00-.75-.75H8zM9.25 10a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H10a.75.75 0 01-.75-.75V10zM10 11.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V12a.75.75 0 00-.75-.75H10zM9.25 14a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H10a.75.75 0 01-.75-.75V14zM12 9.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V10a.75.75 0 00-.75-.75H12zM11.25 12a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H12a.75.75 0 01-.75-.75V12zM12 13.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V14a.75.75 0 00-.75-.75H12zM13.25 10a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H14a.75.75 0 01-.75-.75V10zM14 11.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V12a.75.75 0 00-.75-.75H14z"></path>
-                <path clip-rule="evenodd" fill-rule="evenodd" d="M5.75 2a.75.75 0 01.75.75V4h7V2.75a.75.75 0 011.5 0V4h.25A2.75 2.75 0 0118 6.75v8.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25v-8.5A2.75 2.75 0 014.75 4H5V2.75A.75.75 0 015.75 2zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75z"></path>
-              </svg>
-            </div>
-            <input name="end" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="To">
-          </div>
-        </div>
+        
       </div>
     </div>
     <!-- Table -->

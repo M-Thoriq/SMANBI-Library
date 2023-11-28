@@ -1,6 +1,6 @@
 <?php
     $db_host = "localhost";
-    $db_name = "smanbi";
+    $db_name = "perpussmansa";
     $user = "root";
     $pwd = "";
 

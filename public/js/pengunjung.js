@@ -6,6 +6,6 @@ $(document).ready(function() {
 
 setInterval(function() {
     
-        $('#tableBody').load('../../views/anggota/anggota.php');
+    $('#tableBody').load('../../views/anggota/anggota.php');
     
 }, 500);

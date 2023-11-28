@@ -19,7 +19,7 @@
           </div>
           <ul class="space-y-2 font-medium">
              <li class="">
-                <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <a href="../dashboard/" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                    <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
                       <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z"/>
                       <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z"/>
@@ -131,6 +131,9 @@
                       <th scope="col" class="p-4 text-xs tracking-wider text-left text-gray-500 uppercase dark:text-white">
                         EXM
                       </th>
+                      <th scope="col" class="p-4 w-fit">
+                        
+                      </th>
                     </tr>
                   </thead>
                   <tbody class="bg-white dark:bg-gray-800" id="tableBody">
@@ -152,11 +155,12 @@ $result = mysqli_query($conn, $query);
 foreach ($result as $buku) {
   echo '
   <tr class="tableRow">
+    
   <td class="p-4 text-sm font-normal text-gray-900 whitespace-nowrap dark:text-white">
     '.$buku['no_induk'].'
   </td>
   <td class="p-4 text-sm max-w-[40ch] font-normal text-gray-500 break-all dark:text-gray-400">
-    '.$buku['judul'].'
+    <a href="detail.php?no_induk='.$buku['no_induk'].'">'.$buku['judul'].'</a>
   </td>
   <td class="p-4 text-sm font-semibold text-gray-900 whitespace-nowrap dark:text-white">
     '.$buku['pengarang'].'
@@ -170,6 +174,14 @@ foreach ($result as $buku) {
   <td class="p-4 whitespace-nowrap">
     <span
       class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-green-400 border border-green-100 dark:border-green-500">'.$buku['eksemplar'].'</span>
+  </td>
+  <td class="p-4 relative z-50">
+  <form action="update.php" method="POST">
+    <input class="hidden" name="no_induk" value="'.$buku['no_induk'].'">
+    <button type="submit" class=" rounded-lg p-2 shadow-inner shadow-black bg-blue-100 dark:bg-slate-50">
+      <img src="../../public/images/edit.svg" class="w-5" alt="">
+    </button>
+  </form>
   </td>
 </tr>
 ';
@@ -185,7 +197,7 @@ foreach ($result as $buku) {
           </div>
         </div>
 <?php
-echo "<div class='flex rounded-lg w-fit mx-auto mt-4 overflow-hidden justify-center bg-slate-900 text-gray-50'>";
+echo "<div class='flex rounded-lg w-fit mx-auto mt-4 overflow-hidden justify-center bg-gray-300 text-slate-900 dark:bg-slate-900 dark:text-gray-50'>";
 
 $prev_page = $current_page - 1;
 $next_page = $current_page + 1;
@@ -195,7 +207,7 @@ if ($current_page != 1){
 // Display the first 3 pages
 for ($i = 1; $i <= min(3, $total_pages); $i++) {
   if ($i == $current_page) {
-    echo "<a href='index.php?page=$i' class='px-3 py-2 bg-blue-500 text-white'>$i</a>";
+    echo "<a href='index.php?page=$i' class='px-3 py-2 dark:bg-blue-500 bg-slate-800 text-white'>$i</a>";
   } else {
     echo "<a href='index.php?page=$i' class='px-3 py-2'>$i</a>";
   }
