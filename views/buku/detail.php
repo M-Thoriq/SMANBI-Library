@@ -32,9 +32,15 @@ error_reporting(0);
 </head>
 <body class="h-screen w-full bg-default relative z-10">
     <div class="h-1/4 w-full flex justify-center place-items-center">
-        <a href="../"><div class="my-auto h-fit w-fit bg-slate-50 border-r rounded-l-full px-6 py-4">
+        <?php if($_SESSION['status'] == "admin") { ?>
+        <a href="./"><div class="my-auto h-fit w-fit bg-slate-50 border-r rounded-l-full px-6 py-4">
             <span class="font-bold text-blue-900">&lt;</span>
         </div></a>
+        <?php } else {?>
+        <a href="../"><div class="my-auto h-fit w-fit bg-slate-50 border-r rounded-l-full px-6 py-4">
+            <span class="font-bold text-blue-900">&lt;</span>
+        </div></a>    
+        <?php } ?>
         <div class="my-auto h-fit flex bg-slate-50 rounded-r-full px-6 py-4 gap-4">
             <img src="../../public/images/icon1.svg" class="w-6 h-6" alt="">
             <p class="max-w-md overflow-x-hidden whitespace-nowrap overflow-hidden text-ellipsis text-blue-600 font-semibold font-jb">
