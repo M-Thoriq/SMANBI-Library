@@ -97,7 +97,8 @@ $q = mysqli_query($conn, "CALL CheckDenda()");
                           <th scope="col" class="text-start p-4 text-xs tracking-wider text-gray-500 uppercase dark:text-white">
                             Tanggal Kembali
                           </th>
-                          
+                          <th scope="col" class="p-4 w-fit">
+                          </th>
                         </tr>
                       </thead>
                       <tbody class="bg-white dark:bg-gray-800" id="tableBody">
@@ -127,9 +128,30 @@ $q = mysqli_query($conn, "CALL CheckDenda()");
       <td class="px-2 text-sm font-normal text-center break-all text-gray-500 whitespace-wrap max-w-prose dark:text-gray-400">
         '.$buku['tgl_pengembalian'].'
       </td>
-      
+      <td class="p-4 relative z-50">
+      <form method="POST">
+        <input class="hidden" name="no_induk" value="'.$buku['id_peminjaman'].'">
+        <button name="btnPinjamConfirm" class=" rounded-lg p-2 shadow-inner shadow-black bg-blue-100 dark:bg-slate-50">
+          <img src="../../public/images/ceklis.svg" class="w-5" alt="">
+        </button>
+      </form>
+      </td>
     </tr>
     ';
+    }
+    ?>
+    <?php
+    if(isset($_POST['btnPinjamConfirm'])) {
+      $ids = $_POST['no_induk'];
+      $query = "DELETE FROM peminjaman_buku WHERE id_peminjaman='$ids'";
+      $result = mysqli_query($conn, $query);
+      if($result) {
+        echo "<script>alert('Peminjaman berhasil dikonfirmasi')</script>";
+        echo "<script>window.location.href='pinjam.php'</script>";
+      } else {
+        echo "<script>alert('Peminjaman gagal dikonfirmasi')</script>";
+        echo "<script>window.location.href='pinjam.php'</script>";
+      }
     }
     ?>
                       </tbody>

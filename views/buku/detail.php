@@ -12,6 +12,7 @@ $no_induk = $_GET['no_induk'];
 $query = mysqli_query($conn, "SELECT * FROM v_detail_buku WHERE ID = '$no_induk'");
 foreach($query as $data){}
 
+error_reporting(0);
 ?>
 
 <!DOCTYPE html>
