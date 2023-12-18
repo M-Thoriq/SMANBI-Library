@@ -1,12 +1,17 @@
 <?php
+session_start();
+if (!isset($_SESSION['status'])) {
+    header("Location: ../login/");
+}
 require_once "../../includes/koneksi.php";
 if($_GET['no_induk'] == "") {
     header("Location: ../../views/index.php");
 }
 $no_induk = $_GET['no_induk'];
 // echo''.$no_induk.'';
-$query = mysqli_query($conn, "SELECT * FROM detail_buku WHERE ID = '$no_induk'");
+$query = mysqli_query($conn, "SELECT * FROM v_detail_buku WHERE ID = '$no_induk'");
 foreach($query as $data){}
+
 ?>
 
 <!DOCTYPE html>
@@ -16,6 +21,13 @@ foreach($query as $data){}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../../public/css/output.css">
+    <script src="../../public/js/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="../../public/css/jquery-ui.css">
+    <style>
+        .ui-autocomplete-input{
+            z-index: 9999;
+        }
+    </style>
 </head>
 <body class="h-screen w-full bg-default relative z-10">
     <div class="h-1/4 w-full flex justify-center place-items-center">
@@ -29,7 +41,7 @@ foreach($query as $data){}
             </p>
         </div>
     </div>
-    <section class="bg-slate-50 rounded-t-[40px] top-1/4 z-50 absolute w-full min-h-screen max-h-fit overflow-hidden">
+    <section class="bg-slate-50 rounded-t-[40px] top-1/4 z-30 absolute w-full min-h-screen max-h-fit overflow-hidden">
         <div class="h-full w-full relative">
             <div class="absolute -top-20 rounded-full left-1/2 -translate-x-1/2 bg-blue-800 w-36 shadow-inner shadow-black h-36">
                 <img src="../../public/images/buku.svg" class="scale-[35%] mt-8" alt="">
@@ -55,16 +67,18 @@ foreach($query as $data){}
                         <div class="h-full w-full">
                             
                         </div>
-                        <div class="h-full absolute bg-slate-50 rounded-tl-xl gap-2 px-2 py-3 flex right-0 top-[70%] w-full">
-                            <button class="uppercase shadow-lg h-fit  p-6 bg-gradient-to-tr from-blue-700 to-sky-500 text-white rounded-xl w-full" id="modalPinjam">Pinjam</button>
-                            <button class="uppercase shadow-lg h-fit bg-gradient-to-tr from-red-400 to-red-700 -me-2 text-white p-6 rounded-xl w-1/2" id="modalCetak">Cetak</button>
-                        </div>
+                        <?php if($_SESSION['status'] == "admin") { ?>
+                            <div class="h-full absolute bg-slate-50 rounded-tl-xl gap-2 px-2 py-3 flex right-0 top-[70%] w-full">
+                                <button class="uppercase shadow-lg h-fit  p-6 bg-gradient-to-tr from-blue-700 to-sky-500 text-white rounded-xl w-full" id="modalPinjam">bUAT PinjamAn</button>
+                                <button class="uppercase shadow-lg h-fit bg-gradient-to-tr from-red-400 to-red-700 -me-2 text-white p-6 rounded-xl w-1/2" id="modalCetak">Cetak</button>
+                            </div>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <div class="h-screen w-screen hidden place-content-center place-items-center content-center z-[9999] fixed top-0 left-0 bg-black bg-opacity-80" id="cetak">
+    <div class="h-screen w-screen hidden place-content-center place-items-center content-center z-[999] fixed top-0 left-0 bg-black bg-opacity-80" id="cetak">
         <img id="btnCloseCetak" src="../../public/images/cross.svg" class="bg-slate-50 p-2 w-10 h-10 rounded-t-lg text-black" alt="">
         <div class="w-fit h-fit m-auto grid grid-cols-2 gap-2 bg-slate-50 rounded-xl p-7">
             <p class="text-center">Cetak Katalog</p><p class="text-center">Cetak No Punggung</p>
@@ -72,15 +86,15 @@ foreach($query as $data){}
             <button class="bg-yellow-300 px-3 py-2 rounded-lg" onclick="punggung()">Cetak</button>
         </div>
     </div>
-    <div class="h-screen w-screen hidden place-content-center place-items-center content-center z-[9999] fixed top-0 left-0 bg-black bg-opacity-80" id="modal">
+    <div class="h-screen w-screen hidden place-content-center place-items-center content-center z-[999] fixed top-0 left-0 bg-black bg-opacity-80" id="modal">
         <div class="w-fit h-fit m-auto grid bg-slate-50 rounded-xl p-7">
             <h1 class="text-2xl text-center font-bold">Konfirmasi Peminjaman Buku</h1>
             <form action="pinjamBk.php" method="POST">
             <span class="mx-auto w-1/4 py-0.5 rounded-full bg-black"></span>
             <input type="text" class="hidden" name="no_induk" value="<?=$data['ID']?>">
             <input type="text" class="inputForm" value="<?=$data['judul'] ?>" disabled>
-            <label for="nama">Nama Peminjam</label>
-            <input type="text" class="inputForm" name="namaPeminjam" id="nama" placeholder="Masukkan nama peminjam" required>
+            <label for="siswa_search">Nama Peminjam</label>
+            <input type="text" class="inputForm invalid:ring-red-600" name="namaPeminjam" id="siswa_search" placeholder="Masukkan nama peminjam" required>
             <!-- <label for="namaPetugas">Nama Petugas</label>
             <input type="text" class="inputForm" name="namaPetugas" id="namaPetugas" placeholder="Masukkan nama petugas" required> -->
             
@@ -92,14 +106,13 @@ foreach($query as $data){}
         </div>
     </div>
 <?php 
-$katalog = mysqli_query($conn, "SELECT * FROM katalog_judul WHERE ID = '$no_induk'");
-foreach($katalog as $buku){}
+$katalog = mysqli_query($conn, "SELECT * FROM v_katalog_judul WHERE ID = '$no_induk'");
+foreach($katalog as $ctlg){}
 echo '
     <script>
         function katalog() {
             var section = document.createElement(\'section\');
 
-            // Set the innerHTML of the section to your HTML string
             section.innerHTML = `
             <html>
             <head>
@@ -107,22 +120,22 @@ echo '
             </head>
             <body class="w-1/3 border invisible">
                 <section class="visible absolute top-0 left-0 text-lg">
-                    <h1 class="font-bold ms-2">'.$buku['ID'].'</h1>
+                    <h1 class="font-bold ms-2 text-black">'.$ctlg['ID'].'</h1>
                     <div class="grid grid-cols-2 w-1/4 gap-10">
-                        <h1 class="font-bold ms-2">'.$buku['KODE_PENGARANG'].'</h1>
-                        <h1 class="whitespace-nowrap">Neni, Jahar</h1>
+                        <h1 class="font-bold ms-2">'.$ctlg['KODE_PENGARANG'].'</h1>
+                        <h1 class="whitespace-nowrap">'.$ctlg['nama_belakang'].', '.$ctlg['nama_depan'].'</h1>
                     </div>
                     <div class="grid grid-cols-2 w-1/4 gap-10">
-                        <h1 class="font-bold ms-2">'.$buku['inisial'].'</h1>
-                        <h1 class="whitespace-nowrap">'.$buku['judul'].'<br>/'.$buku['pengarang'].',<span>'.$buku['penerbit'].', '.$buku['tahun'].'</span></h1>
-                    </div>
-                    <div class="grid grid-cols-2 w-1/4 gap-10">
-                        <h1 class="font-bold"></h1>
-                        <h1 class="whitespace-nowrap">'.$buku['ukuran'].'</span></h1>
+                        <h1 class="font-bold ms-2">'.$ctlg['inisial'].'</h1>
+                        <h1 class="whitespace-nowrap">'.$ctlg['judul'].'<br>/'.$ctlg['pengarang'].',<span>'.$ctlg['penerbit'].', '.$ctlg['tahun'].'</span></h1>
                     </div>
                     <div class="grid grid-cols-2 w-1/4 gap-10">
                         <h1 class="font-bold"></h1>
-                        <h1 class="whitespace-nowrap mt-7">ISBN : '.$buku['isbn'].'</span></h1>
+                        <h1 class="whitespace-nowrap">'.$ctlg['ukuran'].'</span></h1>
+                    </div>
+                    <div class="grid grid-cols-2 w-1/4 gap-10">
+                        <h1 class="font-bold"></h1>
+                        <h1 class="whitespace-nowrap mt-7">ISBN : '.$ctlg['isbn'].'</span></h1>
                     </div>
                     <div class="grid grid-cols-2 w-1/4 gap-10">
                         <h1 class="font-bold"></h1>
@@ -148,7 +161,7 @@ echo '
 ?>
 
 <?php 
-$katalog = mysqli_query($conn, "SELECT * FROM katalog_judul WHERE ID = '$no_induk'");
+$katalog = mysqli_query($conn, "SELECT * FROM v_katalog_judul WHERE ID = '$no_induk'");
 foreach($katalog as $buku){}
 echo '
     <script>
@@ -224,6 +237,9 @@ echo '
         modal.classList.toggle('grid');
     });
 </script>
+<script src="../../public/js/jquery-3.6.0.js"></script>
+    <script src="../../public/js/jquery-ui.js"></script>
+    <script src="../../public/js/searchsiswa.js"></script>
 
 </body>
 </html>

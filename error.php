@@ -1,8 +1,8 @@
 <?php
-$code = $_GET['code'];
-if ($code == '') {
-    header("Location: index.html");
-}
+// $code = $_GET['code'];
+// if ($code == '') {
+//     header("Location: index.html");
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,17 +19,22 @@ if ($code == '') {
         </div>
         <h1 class="bg-default shadow-inner shadow-black p-12 rounded-md mx-auto my-auto font-jb text-4xl text-center text-white">Error :(</h1>
         
-        <?php if ($code == 1) : ?>
-            <p class="text-center text-sm font-medium max-w-prose my-5">ERROR CODE "INSERT" : Terjadi kesalahan terhadap inputan. Pastikan menginput nilai yang benar dan sesuai. </p>
-        <?php elseif ($code == 2) : ?>
-            <p class="text-center text-sm font-medium max-w-prose my-5">ERROR CODE "UPDATE" : Terjadi kesalahan terhadap pembaharuan data. Pastikan data yang diperbaharui ada dan benar.</p>
-        <?php elseif ($code == 3) : ?>
-            <p class="text-center text-sm font-medium max-w-prose my-5">FATAL ERROR : Tidak dapat terhubung ke server.</p>
-        <?php endif; ?>
-
-        <a href="views/dashboard/" class="bg-blue-900 text-white rounded-md px-4 py-2">Kembali ke halaman utama</a>
         
 
+        <a href="views/dashboard/" class="bg-blue-900 text-white rounded-md px-4 py-2">Kembali ke halaman utama</a>
+        <form method="GET">
+        <button name="btnTes">Click Me!</button>
+        </form>
+        <?php
+    function customError($errno, $errstr) {
+        echo "<script type='text/javascript'>alert('Gagal : $errstr');</script>";
+    }
+    set_error_handler("customError");
+
+    if (isset($_GET['btnTes'])) {
+        echo $undefined;
+    }
+?>
     </section>
 </body>
 </html>

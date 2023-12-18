@@ -1,4 +1,5 @@
 <?php
+
 require_once '../includes/koneksi.php';
 $keyword = $_GET["keyword"];
 if(!isset($_GET["keyword"])) {
@@ -42,8 +43,8 @@ if(mysqli_num_rows($result) > 0) {
 }
 else {
   echo '
-    <div class="flex place-items-center place-content-center">
-      <h1 class="m-auto text-4xl text-black">'.$keyword.' tidak ditemukan</h1>
+    <div class="col-span-2 place-items-center place-content-center">
+      <center><h1 class="text-center text-4xl text-black dark:text-white">'.$keyword.' tidak ditemukan</h1></center>
     </div>
   ';
 }

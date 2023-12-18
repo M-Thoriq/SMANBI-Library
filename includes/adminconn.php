@@ -1,11 +1,6 @@
 <?php
-// Select semua tabel di database, insert, update
-    if (!isset($_SESSION)) {
-        session_start();
-    }    
-
     $db_host = "localhost";
-    $db_name = "java_app";
+    $db_name = "testperpus";
     $user = "admin";
     $pwd = "admin123";
 

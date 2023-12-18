@@ -1,13 +1,9 @@
 <?php
-// Hanya bisa select data tabel buku
-    if (!isset($_SESSION)) {
-        session_start();
-    }    
 
     $db_host = "localhost";
-    $db_name = "java_app";
-    $user = "visitor";
-    $pwd = "123";
+    $db_name = "testperpus";
+    $user = "pengunjung";
+    $pwd = "VISITOR123ROTISIV";
 
     $conn = mysqli_connect($db_host, $user, $pwd, $db_name);
 

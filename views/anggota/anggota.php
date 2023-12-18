@@ -1,6 +1,6 @@
 <?php
 require_once('../../includes/koneksi.php');
-$query = "SELECT id_siswa AS id, nama, waktu, log_aktivitas_siswa AS aktifitas, keterangan FROM log_pengunjung ORDER BY waktu DESC";
+$query = "SELECT id, nama, waktu, log_aktivitas as aktifitas, keterangan FROM v_log_pengunjung ORDER BY waktu DESC";
 $hasil = mysqli_query($conn, $query);
 // var_dump($hasil);
 foreach($hasil as $data) {
@@ -18,7 +18,7 @@ foreach($hasil as $data) {
     <td class="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
         '.$data['aktifitas'].'
     </td>
-    <td class="p-4 whitespace-nowrap text-white font-semibold">
+    <td class="p-4 whitespace-nowrap dark:text-white text-gray-950 font-semibold">
         '.$data['keterangan'].'
     </td>
 </tr> ';

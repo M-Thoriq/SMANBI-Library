@@ -10,7 +10,7 @@
 </head>
 <body>
 <?php
-require_once '../includes/koneksi.php';
+require_once '../includes/visitorconn.php';
 $keyword = "";
 if(!isset($_POST["search"])) {
     $keyword = "";
@@ -27,7 +27,7 @@ echo '<h1 id="keywordInit" class="hidden">'.$keyword.'</h1>';
             </div>
             <div class="relative w-full px-4">
                 <input type="search" value="<?=$keyword ?>" id="book_search" name="search" class="searchBar shadow-md px-7 py-4 mx-5 " placeholder="Cari judul buku" required>
-                <button  onclick="katalog()" type="submit" class="btnSearchX">
+                <button type="submit" class="btnSearchX">
                     <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                     </svg>
@@ -35,7 +35,7 @@ echo '<h1 id="keywordInit" class="hidden">'.$keyword.'</h1>';
                 </button>
             </div>
         </div>
-        <div class="flex gap-3">
+        <div class="flex gap-3 invisible">
             <div class="flex gap-4 rounded-2xl bg-slate-50 dark:bg-gray-800 dark:text-white text-xl my-3 py-1 px-5">
                 <h1 class="font-bold uppercase">Judul</h1>
                 <div class="dark:bg-blue-600  rounded-2xl text-white font-extrabold ps-2 pe-20">A-Z</div>
@@ -47,45 +47,6 @@ echo '<h1 id="keywordInit" class="hidden">'.$keyword.'</h1>';
         </div>
         <div class="bg-slate-50 dark:bg-gray-900 dark:bg-opacity-100 bg-opacity-40 rounded-lg grid grid-cols-2 gap-2 overflow-y-scroll p-2" id="body">
             
-            <!-- <div class="bg-slate-100 w-full px-7 py-5 rounded-xl flex">
-                <div class="rounded-lg bg-slate-400 max-w-sm overflow-hidden">
-                    <img src="../public/images/bg.png" class="h-full object-cover w-36" alt="">
-                </div>
-                <div class="flex flex-col py-2 px-4">
-                    <h1 class="text-4xl font-bold">Judul Buku</h1>
-                    <h1 class="text-2xl">Author</h1>
-                    <h1 class="text-2xl">Tahun Terbit</h1>
-                    <h1 class="text-2xl">Jumlah Halaman</h1>
-                    <h1 class="text-2xl">Jumlah Buku</h1>
-                    <h1 class="text-2xl">Deskripsi</h1>
-                </div>
-            </div>
-            <div class="bg-slate-100 w-full px-7 py-5 rounded-xl flex">
-                <div class="rounded-lg bg-slate-400 max-w-sm overflow-hidden">
-                    <img src="../public/images/bg.png" class="h-full object-cover w-36" alt="">
-                </div>
-                <div class="flex flex-col py-2 px-4">
-                    <h1 class="text-4xl font-bold">Judul Buku</h1>
-                    <h1 class="text-2xl">Author</h1>
-                    <h1 class="text-2xl">Tahun Terbit</h1>
-                    <h1 class="text-2xl">Jumlah Halaman</h1>
-                    <h1 class="text-2xl">Jumlah Buku</h1>
-                    <h1 class="text-2xl">Deskripsi</h1>
-                </div>
-            </div>
-            <div class="bg-slate-100 w-full px-7 py-5 rounded-xl flex">
-                <div class="rounded-lg bg-slate-400 max-w-sm overflow-hidden">
-                    <img src="../public/images/bg.png" class="h-full object-cover w-36" alt="">
-                </div>
-                <div class="flex flex-col py-2 px-4">
-                    <h1 class="text-4xl font-bold">Judul Buku</h1>
-                    <h1 class="text-2xl">Author</h1>
-                    <h1 class="text-2xl">Tahun Terbit</h1>
-                    <h1 class="text-2xl">Jumlah Halaman</h1>
-                    <h1 class="text-2xl">Jumlah Buku</h1>
-                    <h1 class="text-2xl">Deskripsi</h1>
-                </div>
-            </div> -->
         </div>
     </section>
 

@@ -26,7 +26,7 @@ body{
 }
  
 .labelForm{
-    @apply block mb-2 text-lg font-medium dark:text-gray-900 text-white
+    @apply mb-2 text-lg font-medium dark:text-gray-900 text-white
 }
 
 .inputForm {

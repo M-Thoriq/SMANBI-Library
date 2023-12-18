@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SMANBI Library</title>
     <link rel="stylesheet" href="../../public/css/output.css">
+    <script src="../../public/js/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="../../public/css/jquery-ui.css">
 </head>
 <body>
     <section class="bg-default h-screen w-screen">
@@ -15,22 +17,29 @@
             <h1 class="titleLogin">Sistem Informasi Perpustakaan SMA Negeri 1 BINJAI</h1>
             <form action="proses.php" method="POST" class="w-full">
                 <div class="grid">
-                    <label for="nomor" class="labelForm text-white mt-2">Nama</label>
-                    <input type="text" id="nomor" class="inputForm inputNumber" name="nama" placeholder="Masukkan nama" required>
                     <div class="grid grid-cols-2 gap-2 mt-3 w-full">
                         <div class="flex items-center ps-4 border bg-slate-50 dark:bg-gray-700 border-gray-200 rounded-lg dark:border-gray-700">
-                            <input checked id="bordered-radio-1" type="radio" value="siswa" name="jenis" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="bordered-radio-1" class="w-full py-4 ms-2 text-lg font-medium text-gray-900 dark:text-gray-300">Siswa</label>
+                            <input id="radioSiswa1" checked type="radio" value="siswa" name="jenis" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="radioSiswa1" class="w-full py-4 ms-2 text-lg font-medium text-gray-900 dark:text-gray-300">Siswa</label>
                         </div> 
                         <div class="flex items-center ps-4 border bg-slate-50 dark:bg-gray-700 border-gray-200 rounded-lg dark:border-gray-700">
                             <input id="bordered-radio-2" type="radio" value="tamu" name="jenis" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                             <label for="bordered-radio-2" class="w-full py-4 ms-2 text-lg font-medium text-gray-900 dark:text-gray-300">Tamu</label>
                         </div>
                     </div>
-                    <label for="aktifitas" class="labelForm text-white mt-5">Jabatan Tamu</label>
+                    <label for="siswa_search" class="labelForm text-white mt-2" >Nama</label>
+                    <input type="text" id="siswa_search" class="inputForm inputNumber invalid:ring-red-600" name="nama" placeholder="Masukkan nama" required>
+                    <div class="" id="aktSiswa">
+                        <label for="aktifitas" class="labelForm text-white mt-5">Aktifitas</label>
+                        <select name="aktifitasSiswa" id="" class="bg-gray-50 border mt-2 border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                            <option value="Meminjam/Mengembalikan/Perpanjangan Buku">Meminjam/Mengembalikan/Perpanjangan Buku</option>
+                            <option value="Membaca Buku">Membaca Buku</option>
+                            <option value="Belajar/Berdiskusi">Belajar/Berdiskusi</option>
+                        </select>
+                    </div>
                     <div id="aktTamu" class="hidden ">
+                        <label for="aktifitas" class="labelForm text-white mt-5">Jabatan Tamu</label>
                         <input type="text" class="inputBiasa" placeholder="Jabatan tamu" name="jabatanTamu">
-                        
                         <div class="grid grid-cols-2 gap-1">
                         <label for="aktifitas" class="labelForm text-white mt-5">Ulasan</label>
                         <label for="aktifitas" class="labelForm text-white mt-5">Aktifitas</label>
@@ -38,12 +47,8 @@
                         <input type="text" class="inputBiasa" placeholder="Alasan berkunjung" name="aktifitasTamu">
                         </div>
                     </div>
-                    <select name="aktifitasSiswa" id="aktSiswa" class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option selected class="text-gray-500 hidden">Alasan berkunjung</option>
-                        <option value="Meminjam/Mengembalikan/Perpanjangan Buku">Meminjam/Mengembalikan/Perpanjangan Buku</option>
-                        <option value="Membaca Buku">Membaca Buku</option>
-                        <option value="Belajar/Berdiskusi">Belajar/Berdiskusi</option>
-                    </select>
+                    
+                    
                     
                     
 <!-- 
@@ -57,21 +62,27 @@
     </section>
 
     <script>
-        const radioSiswa = document.getElementById('bordered-radio-1');
+        const radioSiswa = document.getElementById('radioSiswa1');
         const radioTamu = document.getElementById('bordered-radio-2');
         const aktSiswa = document.getElementById('aktSiswa');
         const aktTamu = document.getElementById('aktTamu');
+        const siswaSearch = document.getElementById('siswa_search');
+        const tamuSearch = document.getElementById('tamu_search');
 
         radioSiswa.addEventListener('click', () => {
             aktSiswa.classList.remove('hidden');
             aktTamu.classList.add('hidden');
+                
         });
 
         radioTamu.addEventListener('click', () => {
             aktSiswa.classList.add('hidden');
             aktTamu.classList.remove('hidden');
+            
         });
     </script>
-
+    <script src="../../public/js/jquery-3.6.0.js"></script>
+    <script src="../../public/js/jquery-ui.js"></script>
+    <script src="../../public/js/searchsiswa.js"></script>
 </body>
 </html>
