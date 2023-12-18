@@ -121,7 +121,7 @@ $jumlahPeminjaman = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS J
         <option value="08">Agustus</option>
         <option value="09">September</option>
         <option value="10">Oktober</option>
-        <option value="11">Nopember</option>
+        <option value="11">November</option>
         <option value="12">Desember</option>
       </select>
       <select name="tahun" id="tahun" class="inputForm h-fit">
@@ -139,7 +139,7 @@ $jumlahPeminjaman = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS J
     <!-- Card header -->
     <div class="items-center justify-between lg:flex">
       <div class="mb-4 lg:mb-0">
-        <h3 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Log Aktifitas Pengunjung</h3>
+        <h3 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Log Aktivitas Pengunjung</h3>
         <span class="text-base font-normal text-gray-500 dark:text-gray-400">List akan diperbaharui otomatis saat ada data yang masuk</span>
       </div>
       <div class="items-center sm:flex">
@@ -167,7 +167,7 @@ $jumlahPeminjaman = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS J
                     Waktu
                   </th>
                   <th scope="col" class="p-4 text-xs tracking-wider text-left text-gray-500 uppercase dark:text-white">
-                    Aktifitas
+                    Aktivitas
                   </th>
                   <th scope="col" class="p-4 text-xs tracking-wider text-left text-gray-500 uppercase dark:text-white">
                     STATUS
