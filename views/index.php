@@ -50,24 +50,6 @@ echo '<h1 id="keywordInit" class="hidden">'.$keyword.'</h1>';
         </div>
     </section>
 
-    <script>
-        function katalog() {
-            //Make a new document via document.write with a div element with author name and book title
-            const katalogBuku = "\
-                <div>Author Name</div><div>Book Title</div>\
-                ";
-            document.write(katalogBuku);
-            
-            setTimeout(function() {
-                //Automatically keyboard Ctrl + P to print the document
-                window.print();
-            }, 2500);
-            setTimeout(() => {
-                //Refresh page
-                window.location.reload();
-            }, 10000);
-        }
-    </script>
     
     
 </body>

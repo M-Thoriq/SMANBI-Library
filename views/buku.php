@@ -1,15 +1,14 @@
 <?php
 
 require_once '../includes/koneksi.php';
-$keyword = $_GET["keyword"];
-if(!isset($_GET["keyword"])) {
-    $keyword = "";
-
-} else {
-    $keyword = $_GET["keyword"];
-    $query = "SELECT b.no_induk, b.judul_buku as judul, pb.nama_pengarang as pengarang, pn.nama_penerbit as penerbit, b.isbn as ISBN, k.kategori AS kategori FROM buku b JOIN pengarang_buku pb ON pb.id=b.id_pengarang JOIN penerbit_buku pn ON b.id_penerbit = pn.id_penerbit JOIN kelas_buku k ON k.id_kelas = b.id_kelas WHERE judul_buku LIKE '%$keyword%' OR nama_pengarang LIKE '%$keyword%' ORDER BY no_induk ASC";
+if (isset($_GET['keyword'])){
+  $keyword = urlencode($_GET['keyword']);
 }
-sleep(2);
+else {
+  $keyword = '';
+}
+$dKeyword = urldecode($keyword);
+$query = "SELECT b.no_induk, b.judul_buku as judul, pb.nama_pengarang as pengarang, pn.nama_penerbit as penerbit, b.isbn as ISBN, k.kategori AS kategori FROM buku b JOIN pengarang_buku pb ON pb.id=b.id_pengarang JOIN penerbit_buku pn ON b.id_penerbit = pn.id_penerbit JOIN kelas_buku k ON k.id_kelas = b.id_kelas WHERE judul_buku LIKE '%$dKeyword%' OR nama_pengarang LIKE '%$dKeyword%' ORDER BY no_induk ASC";
 $result = mysqli_query($conn, $query); 
 if(mysqli_num_rows($result) > 0) {
   foreach ($result as $buku) {

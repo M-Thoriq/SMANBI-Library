@@ -1,6 +1,10 @@
 $(document).ready(function() {
-    $('#body').load('buku.php?keyword='+$('#keywordInit').text());
+    $('#body').load('buku.php?keyword=' + encodeURIComponent($('#book_search').val()));
+    var timeout = null;
     $('#book_search').on('keyup', function() {
-        $('#body').load('buku.php?keyword=' + $('#book_search').val());
+        clearTimeout(timeout);
+        timeout = setTimeout(function () {
+            $('#body').load('buku.php?keyword=' + encodeURIComponent($('#book_search').val()));
+        }, 1000);
     });
 });

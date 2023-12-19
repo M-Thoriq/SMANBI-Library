@@ -1,12 +1,14 @@
 <?php
 require_once '../../includes/koneksi.php';
 if (isset($_GET['keyword'])){
-$keyword = $_GET['keyword'];}
+$keyword = urlencode($_GET['keyword']);
+}
 else {
   $keyword = '';
 }
 $records_per_page = 10;
-$result = mysqli_query($conn, "SELECT COUNT(*) FROM buku WHERE judul_buku LIKE '%$keyword%'");
+$dKeyword = urldecode($keyword);
+$result = mysqli_query($conn, "SELECT COUNT(*) FROM buku WHERE judul_buku LIKE '%$dKeyword%'");
 $total_records = mysqli_fetch_array($result)[0];
 $total_pages = ceil($total_records / $records_per_page);
 if (isset($_GET['page']) && is_numeric($_GET['page'])) {
@@ -16,7 +18,7 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
 }
 $start_from = ($current_page - 1) * $records_per_page;
 
-$query = "SELECT b.no_induk, b.eksemplar, b.judul_buku as judul, pb.nama_pengarang as pengarang, pn.nama_penerbit as penerbit, b.isbn as ISBN FROM buku b JOIN pengarang_buku pb ON pb.id=b.id_pengarang JOIN penerbit_buku pn ON b.id_penerbit = pn.id_penerbit WHERE b.judul_buku LIKE '%$keyword%' ORDER BY b.no_induk ASC LIMIT $start_from, $records_per_page";
+$query = "SELECT b.no_induk, b.eksemplar, b.judul_buku as judul, pb.nama_pengarang as pengarang, pn.nama_penerbit as penerbit, b.isbn as ISBN FROM buku b JOIN pengarang_buku pb ON pb.id=b.id_pengarang JOIN penerbit_buku pn ON b.id_penerbit = pn.id_penerbit WHERE b.judul_buku LIKE '%$dKeyword%' ORDER BY b.no_induk ASC LIMIT $start_from, $records_per_page";
 $result = mysqli_query($conn, $query); 
 
 echo '
@@ -51,6 +53,15 @@ echo '
                   
 ';
 
+if (mysqli_num_rows($result) == 0) {
+  echo '
+  <tr class="tableRow">
+    <td class="p-4 text-sm text-center font-normal text-gray-900 whitespace-nowrap dark:text-white" colspan="7">
+      Buku tidak ditemukan
+    </td>
+  </tr>
+  ';
+}
 foreach ($result as $buku) {
   echo '
   <tr class="tableRow">
