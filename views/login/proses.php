@@ -1,7 +1,8 @@
 <?php
 require_once('../../includes/koneksi.php');
-$nama = $_POST['nama'];
+session_start();
 
+$nama = $_POST['nama'];
 $jenis = $_POST['jenis'];
 // function customError($errno, $errstr) {
 //     echo "<script type='text/javascript'>alert('<h1 class=\"font-bold\">Gagal : $errstr</h1>');</script>";
@@ -26,11 +27,11 @@ if ($jenis == "siswa"){
     }
 }
 else {
-    $aktifitas = $_POST['aktifitasTamu'];
+    $aktivitas = $_POST['aktifitasTamu'];
     $ulasan = $_POST['ulasan'];
     $jabatan = $_POST['jabatanTamu'];
     // $query = "INSERT INTO log_pengunjung_tamu (nama, keterangan, jabatan, ulasan, penerima) VALUES ('$nama', '$aktifitas', '$jabatan', '$ulasan', 'YUS')";
-    $query = "INSERT INTO log_pengunjung_tamu (nama, log_aktivitas_tamu) VALUES ('$nama', '$aktifitas')";
+    $query = "INSERT INTO tamu (nama_tamu, keterangan, jabatan_tamu, penerima, ulasan) VALUES ('$nama', '$aktifitas', '$jabatan', 'YUS', '$ulasan')";
     $hasil = mysqli_query($conn, $query);
     if ($hasil) {
         header("Location: ../");
