@@ -48,7 +48,7 @@ error_reporting(0);
             </p>
         </div>
     </div>
-    <section class="bg-slate-50 rounded-t-[40px] top-1/4 z-30 absolute w-full min-h-screen max-h-fit overflow-hidden">
+    <section class="bg-slate-50 rounded-t-[40px] top-1/4 z-20 absolute w-full min-h-screen max-h-fit overflow-hidden">
         <div class="h-full w-full relative">
             <div class="absolute -top-20 rounded-full left-1/2 -translate-x-1/2 bg-blue-800 w-36 shadow-inner shadow-black h-36">
                 <img src="../../public/images/buku.svg" class="scale-[35%] mt-8" alt="">
@@ -93,10 +93,10 @@ error_reporting(0);
             <button class="bg-yellow-300 px-3 py-2 rounded-lg" onclick="punggung()">Cetak</button>
         </div>
     </div>
-    <div class="h-screen w-screen hidden place-content-center place-items-center content-center z-[999] fixed top-0 left-0 bg-black bg-opacity-80" id="modal">
+    <div class="h-screen w-screen hidden place-content-center place-items-center content-center z-50 fixed top-0 left-0 bg-black bg-opacity-80" id="modal">
         <div class="w-fit h-fit m-auto grid bg-slate-50 rounded-xl p-7">
             <h1 class="text-2xl text-center font-bold">Konfirmasi Peminjaman Buku</h1>
-            <form action="pinjamBk.php" method="POST">
+            <form method="POST">
             <span class="mx-auto w-1/4 py-0.5 rounded-full bg-black"></span>
             <input type="text" class="hidden" name="no_induk" value="<?=$data['ID']?>">
             <input type="text" class="inputForm" value="<?=$data['judul'] ?>" disabled>
@@ -107,11 +107,51 @@ error_reporting(0);
             
             <div class="grid grid-cols-2 px-2 gap-2 mt-2">
                 <a class="rounded-2xl bg-slate-600 text-white px-3 py-3 text-center" id="btnBatal">Batalkan</a>
-                <button class="rounded-2xl font-semibold bg-green-400 px-3 py-3" id="btnSubmit">Submit</button>
+                <button class="rounded-2xl font-semibold bg-green-400 px-3 py-3" id="btnSubmit" name="btnPinjam">Submit</button>
             </div>
             </form>
         </div>
     </div>
+<?php
+// session_start();
+if(isset($_POST['btnPinjam'])) {
+    if (!isset($_SESSION['id'])) {
+        header("Location: ../login/");
+    }
+
+    $idPetugas = $_SESSION['id'];
+    $no_induk = $_POST['no_induk'];
+    $nama = $_POST['namaPeminjam'];
+    // $namaPetugas = $_POST['namaPetugas'];
+    // require_once("../../includes/koneksi.php");
+
+    $result = mysqli_query($conn, "SELECT id_siswa FROM siswa WHERE nama_siswa = SUBSTRING_INDEX('$nama', '[', 1) AND kelas_siswa = SUBSTRING_INDEX(SUBSTRING_INDEX('$nama', '[', -1), ']', 1)");
+    $row = mysqli_fetch_assoc($result);
+    $id_siswa = $row['id_siswa'];
+    function shutDownFunction() {
+        $error = error_get_last();
+        
+        // Fatal error, E_ERROR === 1
+        if ($error['type'] === E_ERROR) {
+            $search = array("Uncaught mysqli_sql_exception: ", " in ", $error["file"], " on line ", $error["line"], "Uncaught ");
+            $replace = array("", "", "", "", "", "");
+            $msg = str_replace($search, $replace, $error["message"]);
+            $posIndex = strpos($msg, ":");
+            $errMsg = substr($msg, 0, $posIndex);
+            echo "<script type='text/javascript'>alert('Gagal : $errMsg');</script>";
+        }
+    }
+
+    register_shutdown_function('shutDownFunction');
+    error_reporting(0);
+    $query = mysqli_query($conn, "CALL InsertPeminjaman('$id_siswa', '$no_induk', '$idPetugas')");
+    if ($query){
+        echo "<script type='text/javascript'>alert('Berhasil');</script>";
+    }
+}
+?>
+
+
 <?php 
 $katalog = mysqli_query($conn, "SELECT * FROM v_katalog_judul WHERE ID = '$no_induk'");
 foreach($katalog as $ctlg){}

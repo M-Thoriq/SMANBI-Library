@@ -1,6 +1,6 @@
 <?php
 require_once('../../includes/koneksi.php');
-session_start();
+session_destroy();
 
 $nama = $_POST['nama'];
 $jenis = $_POST['jenis'];
@@ -31,7 +31,7 @@ else {
     $ulasan = $_POST['ulasan'];
     $jabatan = $_POST['jabatanTamu'];
     // $query = "INSERT INTO log_pengunjung_tamu (nama, keterangan, jabatan, ulasan, penerima) VALUES ('$nama', '$aktifitas', '$jabatan', '$ulasan', 'YUS')";
-    $query = "INSERT INTO tamu (nama_tamu, keterangan, jabatan_tamu, penerima, ulasan) VALUES ('$nama', '$aktifitas', '$jabatan', 'YUS', '$ulasan')";
+    $query = "INSERT INTO tamu (nama_tamu, keterangan, jabatan_tamu, penerima, ulasan) VALUES ('$nama', '$aktivitas', '$jabatan', 'YUS', '$ulasan')";
     $hasil = mysqli_query($conn, $query);
     if ($hasil) {
         header("Location: ../");

@@ -38,12 +38,14 @@ $result = mysqli_query($conn,"SELECT id FROM pengarang_buku WHERE nama_pengarang
 $row = mysqli_fetch_assoc($result);
 $id_pengarang = (int) $row['id'];
 
-var_dump($judul, $id_pengarang, $id_penerbit, $ISBN, $edisi, $kategori, $eksemplar, $sumber, $ukuran, $tahun);
-$sql = "INSERT INTO `buku` (`no_induk`, `id_kelas`, `id_pengarang`, `judul_buku`, `id_penerbit`, `tahun_terbit`, 
-    `edisi`, `eksemplar`, `id_sumber`, `ISBN`, `deskripsiFisik`, `deskripsi`)
-    VALUES (NULL, '$kategori', '$id_pengarang', '$judul', '$id_penerbit', 
-    '$tahun', '$edisi', '$eksemplar', '$sumber', '$ISBN', '$ukuran', NULL);";
-echo $sql; // or log it to a file
+// var_dump($judul, $id_pengarang, $id_penerbit, $ISBN, $edisi, $kategori, $eksemplar, $sumber, $ukuran, $tahun);
+// $sql = "INSERT INTO `buku` (`no_induk`, `id_kelas`, `id_pengarang`, `judul_buku`, `id_penerbit`, `tahun_terbit`, 
+//     `edisi`, `eksemplar`, `id_sumber`, `ISBN`, `deskripsiFisik`, `deskripsi`)
+//     VALUES (NULL, '$kategori', '$id_pengarang', '$judul', '$id_penerbit', 
+//     '$tahun', '$edisi', '$eksemplar', '$sumber', '$ISBN', '$ukuran', NULL);";
+// echo $sql; // or log it to a file
+$sql = "CALL InsertBuku('$kategori', '$id_pengarang', '$judul', '$id_penerbit', 
+    '$tahun', '$edisi', '$eksemplar', '$sumber', '$ISBN', '$ukuran', NULL)";
 $insert = mysqli_real_query($conn, $sql);
 mysqli_error($conn);    
 
