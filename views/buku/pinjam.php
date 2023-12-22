@@ -137,7 +137,9 @@ $q = mysqli_query($conn, "CALL CheckDenda()");
       </td>
       <td class="px-2 text-sm font-normal break-all text-gray-500 whitespace-wrap max-w-prose dark:text-gray-400">
         '.$buku['tgl_pengembalian'].'
-      </td>
+      </td>'; 
+      if (mysqli_num_rows(mysqli_query($conn, "SELECT * FROM denda WHERE id_peminjaman='$buku[id_peminjaman]'")) == 0) {
+      echo '
       <td class="p-4 relative z-50">
       <form method="POST">
         <input class="hidden" name="no_induk" value="'.$buku['id_peminjaman'].'">
@@ -157,6 +159,17 @@ $q = mysqli_query($conn, "CALL CheckDenda()");
       
     </tr>
     ';
+    } else {
+      echo '
+      <td class="p-4 relative z-50">
+      
+      </td>
+      <td class="p-4 relative z-50">
+      
+      </td>
+      
+    </tr>';
+    }
     }
     ?>
     <?php
