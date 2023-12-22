@@ -20,7 +20,7 @@ if ($jenis == "siswa"){
     $query = "INSERT INTO log_pengunjung_siswa (id_siswa, nama, kelas_siswa, log_aktivitas_siswa) VALUES ($id_siswa, SUBSTRING_INDEX('$nama', '[', 1), SUBSTRING_INDEX(SUBSTRING_INDEX('$nama', '[', -1), ']', 1), '$aktifitas')";
     $hasil = mysqli_query($conn, $query);
     if ($hasil) {
-        header("Location: ../");
+        header("Location: ../../index.html");
     }
     else {
         echo "Gagal";
@@ -34,9 +34,8 @@ else {
     $query = "INSERT INTO tamu (nama_tamu, keterangan, jabatan_tamu, penerima, ulasan) VALUES ('$nama', '$aktivitas', '$jabatan', 'YUS', '$ulasan')";
     $hasil = mysqli_query($conn, $query);
     if ($hasil) {
-        header("Location: ../");
-    }
-    else {
+        header("Location: ../../index.html");
+    } else {
         echo "Gagal";
     }
 }

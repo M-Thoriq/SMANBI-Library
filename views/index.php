@@ -23,7 +23,7 @@ echo '<h1 id="keywordInit" class="hidden">'.$keyword.'</h1>';
     <section class="bg-default min-h-screen h-fit w-full flex flex-col px-12 py-8">
         <div class="flex sticky top-5 z-[9999]">
             <div class="w-16 h-16 px-3 py-2 bg-slate-50 rounded-full">
-                <a href="../index.html"><img src="../public/images/logo.png" class="w-20 m-auto" alt=""></a>
+                <a href="login/visit.html"><img src="../public/images/logo.png" class="w-20 m-auto" alt=""></a>
             </div>
             <div class="relative w-full px-4">
                 <input type="search" value="<?=$keyword ?>" id="book_search" name="search" class="searchBar shadow-md px-7 py-4 mx-5 " placeholder="Cari judul buku" required>

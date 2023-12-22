@@ -115,6 +115,7 @@ error_reporting(0);
 <?php
 // session_start();
 if(isset($_POST['btnPinjam'])) {
+    mysqli_query($conn, "START TRANSACTION");
     if (!isset($_SESSION['id'])) {
         header("Location: ../login/");
     }
@@ -147,6 +148,10 @@ if(isset($_POST['btnPinjam'])) {
     $query = mysqli_query($conn, "CALL InsertPeminjaman('$id_siswa', '$no_induk', '$idPetugas')");
     if ($query){
         echo "<script type='text/javascript'>alert('Berhasil');</script>";
+        mysqli_query($conn, "COMMIT");
+    }
+    else{
+        mysqli_query($conn, "ROLLBACK");
     }
 }
 ?>

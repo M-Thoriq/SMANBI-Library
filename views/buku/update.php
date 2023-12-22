@@ -15,7 +15,8 @@ foreach($query as $data){}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SMANBI Library</title>
     <link rel="stylesheet" href="../../public/css/output.css">
-    
+    <script src="../../public/js/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="../../public/css/jquery-ui.css">
 </head>
 <body class="bg-default bg-no-repeat h-screen bg-cover">
 
@@ -150,5 +151,8 @@ foreach($query as $data){}
             formBuku2.classList.add('hidden');
         });
     </script>
+    <script src="../../public/js/jquery-3.6.0.js"></script>
+    <script src="../../public/js/jquery-ui.js"></script>
+    <script src="../../public/js/searchPengarangNPenerbit.js"></script>
 </body>
 </html>
