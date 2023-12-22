@@ -189,7 +189,7 @@ $q = mysqli_query($conn, "CALL CheckDenda()");
     <?php
     if(isset($_POST['btnPinjamPanjang'])) {
       $idp = $_POST['no_induk'];
-      $query = "UPDATE peminjaman_buku SET tgl_pengembalian = DATE_ADD(tgl_pengembalian, INTERVAL 7 DAY) WHERE id_peminjaman='$ids'";
+      $query = "UPDATE peminjaman_buku SET tgl_pengembalian = DATE_ADD(tgl_pengembalian, INTERVAL 7 DAY) WHERE id_peminjaman='$idp'";
       $result = mysqli_query($conn, $query);
       if($result) {
         echo "<script>alert('Berhasil Memperpanjang Tanggal Pengembalian')</script>";
