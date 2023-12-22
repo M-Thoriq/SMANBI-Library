@@ -64,7 +64,7 @@ $q = mysqli_query($conn, "CALL CheckDenda()");
   </div>
 </div>
     <section class="bg-default p-5 min-h-screen pt-3" id="PinjamBody">
-      <div class="grid grid-cols-2 gap-2">
+      <div class="grid w-full grid-cols-2 gap-2">
         <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-blue-950 min-h-[50vh] max-h-[80vh] overflow-y-scroll">
             <!-- Card header -->
             <div class="grid text-lg dark:text-white text-gray-950 grid-flow-col">
@@ -99,6 +99,8 @@ $q = mysqli_query($conn, "CALL CheckDenda()");
                           </th>
                           <th scope="col" class="p-4 w-fit">
                           </th>
+                          <th scope="col" class="p-4 w-fit">
+                          </th>
                         </tr>
                       </thead>
                       <tbody class="bg-white dark:bg-gray-800" id="tableBody">
@@ -125,8 +127,16 @@ $q = mysqli_query($conn, "CALL CheckDenda()");
       <td class="px-2 text-sm font-normal break-all text-gray-500 whitespace-wrap max-w-prose dark:text-gray-400">
         '.$buku['tgl_peminjaman'].'
       </td>
-      <td class="px-2 text-sm font-normal text-center break-all text-gray-500 whitespace-wrap max-w-prose dark:text-gray-400">
+      <td class="px-2 text-sm font-normal break-all text-gray-500 whitespace-wrap max-w-prose dark:text-gray-400">
         '.$buku['tgl_pengembalian'].'
+      </td>
+      <td class="p-4 relative z-50">
+      <form method="POST">
+        <input class="hidden" name="no_induk" value="'.$buku['id_peminjaman'].'">
+        <button name="btnPinjamPanjang" class=" rounded-lg p-2 shadow-inner shadow-black bg-blue-100 dark:bg-slate-50">
+          <img src="../../public/images/perpanjang.svg" class="w-5" alt="">
+        </button>
+      </form>
       </td>
       <td class="p-4 relative z-50">
       <form method="POST">
@@ -136,6 +146,7 @@ $q = mysqli_query($conn, "CALL CheckDenda()");
         </button>
       </form>
       </td>
+      
     </tr>
     ';
     }
@@ -154,6 +165,20 @@ $q = mysqli_query($conn, "CALL CheckDenda()");
       }
     }
     ?>
+    <?php
+    if(isset($_POST['btnPinjamPanjang'])) {
+      $idp = $_POST['no_induk'];
+      $query = "UPDATE peminjaman_buku SET tgl_pengembalian = DATE_ADD(tgl_pengembalian, INTERVAL 7 DAY) WHERE id_peminjaman='$ids'";
+      $result = mysqli_query($conn, $query);
+      if($result) {
+        echo "<script>alert('Berhasil Memperpanjang Tanggal Pengembalian')</script>";
+        echo "<script>window.location.href='pinjam.php'</script>";
+      } else {
+        echo "<script>alert('Gagal Memperpanjang')</script>";
+        echo "<script>window.location.href='pinjam.php'</script>";
+      }
+    }
+    ?>
                       </tbody>
                     </table>
                   </div>
@@ -162,96 +187,96 @@ $q = mysqli_query($conn, "CALL CheckDenda()");
             </div>
                 
         </div>
-          <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-blue-950 min-h-[50vh] max-h-[80vh] overflow-y-scroll">
-            <!-- Card header -->
-            <div class="grid text-lg dark:text-white text-gray-950 grid-flow-col">
-              <h1 class="text-3xl font-bold">Daftar Denda</h1>
-              
-            </div>
-            <!-- Table -->
-            <div class="flex flex-col mt-6">
-              <div class="overflow-x-auto rounded-lg">
-                <div class="inline-block min-w-full align-middle">
-                  <div class="overflow-hidden shadow sm:rounded-lg">
-                    <table class="w-full divide-y divide-gray-200 dark:divide-gray-600">
-                      <thead class="bg-gray-50 dark:bg-gray-700 font-extrabold">
-                        <tr>
-                          <th scope="col" class="p-4 text-xs tracking-wider text-left text-gray-500 uppercase dark:text-white">
-                            No
-                          </th>
-                          <th scope="col" class="p-4 max-w-prose text-xs tracking-wider text-left text-gray-500 uppercase dark:text-white">
-                            ID Pinjam
-                          </th>
-                          <th scope="col" class="p-4 text-xs tracking-wider text-left text-gray-500 uppercase dark:text-white">
-                            Jumlah Denda
-                          </th>
-                          <th scope="col" class="ps-2 pe-2 text-xs tracking-wider text-left text-gray-500 uppercase dark:text-white">
-                            Keterangan
-                          </th>
-                          <th scope="col" class="p-4 w-fit">
-                            
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody class="bg-white dark:bg-gray-800" id="tableBody">
-    <?php
-    
-    $query = "SELECT *, hitung_denda(id_peminjaman) as jlhDenda FROM denda";
-    $result = mysqli_query($conn, $query); 
-    foreach ($result as $buku) {
-      echo '
-      <tr class="tableRow">
-        
-      <td class="p-4 text-sm font-normal text-gray-900 whitespace-nowrap dark:text-white">
-        '.$buku['id_denda'].'
-      </td>
-      <td class="p-4 text-sm max-w-[40ch] font-normal text-gray-500 break-all dark:text-gray-400">
-        '.$buku['id_peminjaman'].'
-      </td>
-      <td class="p-4 text-sm font-semibold text-gray-900 whitespace-nowrap dark:text-white">
-        '.$buku['jlhDenda'].'
-      </td>
-      <td class="p-4 text-sm font-semibold text-gray-900 whitespace-nowrap dark:text-white">
-        '.$buku['keterangan'].'
-      </td>
-      <td class="p-4 relative z-50">
-      <form method="POST">
-        <input class="hidden" name="no_induk" value="'.$buku['id_denda'].'">
-        <button name="btnDendaConfirm" class=" rounded-lg p-2 shadow-inner shadow-black bg-blue-100 dark:bg-slate-50">
-          <img src="../../public/images/ceklis.svg" class="w-5" alt="">
-        </button>
-      </form>
-      </td>
-    </tr>
-    ';
+        <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-blue-950 min-h-[50vh] max-h-[80vh] overflow-y-scroll">
+          <!-- Card header -->
+          <div class="grid text-lg dark:text-white text-gray-950 grid-flow-col">
+            <h1 class="text-3xl font-bold">Daftar Denda</h1>
+            
+          </div>
+          <!-- Table -->
+          <div class="flex flex-col mt-6">
+            <div class="overflow-x-auto rounded-lg">
+              <div class="inline-block min-w-full align-middle">
+                <div class="overflow-hidden shadow sm:rounded-lg">
+                  <table class="w-full divide-y divide-gray-200 dark:divide-gray-600">
+                    <thead class="bg-gray-50 dark:bg-gray-700 font-extrabold">
+                      <tr>
+                        <th scope="col" class="p-4 text-xs tracking-wider text-left text-gray-500 uppercase dark:text-white">
+                          No
+                        </th>
+                        <th scope="col" class="p-4 max-w-prose text-xs tracking-wider text-left text-gray-500 uppercase dark:text-white">
+                          ID Pinjam
+                        </th>
+                        <th scope="col" class="p-4 text-xs tracking-wider text-left text-gray-500 uppercase dark:text-white">
+                          Jumlah Denda
+                        </th>
+                        <th scope="col" class="ps-2 pe-2 text-xs tracking-wider text-left text-gray-500 uppercase dark:text-white">
+                          Keterangan
+                        </th>
+                        <th scope="col" class="p-4 w-fit">
+                          
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody class="bg-white dark:bg-gray-800" id="tableBody">
+  <?php
+  
+  $query = "SELECT *, hitung_denda(id_peminjaman) as jlhDenda FROM denda";
+  $result = mysqli_query($conn, $query); 
+  foreach ($result as $buku) {
+    echo '
+    <tr class="tableRow">
+      
+    <td class="p-4 text-sm font-normal text-gray-900 whitespace-nowrap dark:text-white">
+      '.$buku['id_denda'].'
+    </td>
+    <td class="p-4 text-sm max-w-[40ch] font-normal text-gray-500 break-all dark:text-gray-400">
+      '.$buku['id_peminjaman'].'
+    </td>
+    <td class="p-4 text-sm font-semibold text-gray-900 whitespace-nowrap dark:text-white">
+      Rp.'.$buku['jlhDenda'].'
+    </td>
+    <td class="p-4 text-sm font-semibold text-gray-900 whitespace-nowrap dark:text-white">
+      '.$buku['keterangan'].'
+    </td>
+    <td class="p-4 relative z-50">
+    <form method="POST">
+      <input class="hidden" name="no_induk" value="'.$buku['id_denda'].'">
+      <button name="btnDendaConfirm" class=" rounded-lg p-2 shadow-inner shadow-black bg-blue-100 dark:bg-slate-50">
+        <img src="../../public/images/ceklis.svg" class="w-5" alt="">
+      </button>
+    </form>
+    </td>
+  </tr>
+  ';
+  }
+  
+  
+  
+  ?>
+  <?php
+  if(isset($_POST['btnDendaConfirm'])) {
+    $id = $_POST['no_induk'];
+    $query = "DELETE FROM denda WHERE id_denda='$id'";
+    $result = mysqli_query($conn, $query);
+    if($result) {
+      echo "<script>alert('Denda berhasil dikonfirmasi')</script>";
+      echo "<script>window.location.href='pinjam.php'</script>";
+    } else {
+      echo "<script>alert('Denda gagal dikonfirmasi')</script>";
+      echo "<script>window.location.href='pinjam.php'</script>";
     }
-    
-    
-    
-    ?>
-    <?php
-    if(isset($_POST['btnDendaConfirm'])) {
-      $id = $_POST['no_induk'];
-      $query = "DELETE FROM denda WHERE id_denda='$id'";
-      $result = mysqli_query($conn, $query);
-      if($result) {
-        echo "<script>alert('Denda berhasil dikonfirmasi')</script>";
-        echo "<script>window.location.href='pinjam.php'</script>";
-      } else {
-        echo "<script>alert('Denda gagal dikonfirmasi')</script>";
-        echo "<script>window.location.href='pinjam.php'</script>";
-      }
-    }
-    ?>
+  }
+  ?>
 
-                      </tbody>
-                    </table>
-                  </div>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
-                
           </div>
+              
+        </div>
       </div>
       <div class="p-4 mt-2 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-blue-950 max-h-[80vh] overflow-y-scroll">
         <!-- Card header -->
