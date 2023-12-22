@@ -342,9 +342,11 @@ $html = '
       <div style="width:100%;" class="signer">
         <div class="form signer-item"></div>
         <div style="width: 100%;" class="form signer-item">
-          <h4 for="signature" style="text-align: right; width:100%; float:right; padding-right: 2rem;" class="h4">Mengetahui, </h4>
+          <h4 for="signature" style="text-align: right; width:100%; float:right; padding-right: 4.5rem;" class="h4">Mengetahui, </h4>
           <br>
-          
+          <br>
+          <br>
+          <h4 for="signature" style="text-align: right; width:100%; float:right; padding-left: 2rem;" class="h4">Kepala Perpustakaan</h4>
         </div>
       </div>
     </div>
