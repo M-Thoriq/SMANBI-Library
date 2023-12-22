@@ -20,6 +20,7 @@ $html = '
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Laporan Bulanan ('.date('d F Y').')</title>
     <style>
       body {
         font-size: 0.75rem;
@@ -357,6 +358,6 @@ $filename = 'report_perpustakaan_'.date('d-m-Y').'.pdf';
 
 $mpdf = new \Mpdf\Mpdf();
 $mpdf->WriteHTML($html);
-$mpdf->Output($filename, 'I');
+$mpdf->Output($filename, 'D');
 
 ?>

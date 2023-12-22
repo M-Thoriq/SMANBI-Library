@@ -1,5 +1,6 @@
 aData = {}; 
 bData = {};
+cData = {};
 
 $("#pengarang").autocomplete({
     source: function(request, response) {
@@ -35,6 +36,25 @@ $("#penerbit").autocomplete({
                 console.log(bData);
                 var hasil2 = $.ui.autocomplete.filter(bData, request.term);
                 response(hasil2);
+            }
+        });
+    }
+});
+$("#judul").autocomplete({
+    source: function(request, response) {
+        $.ajax({
+            url: "judul.php",
+            type: "GET",
+            dataType: "json",
+            success: function(data) {
+                cData = ($.map(data, function(item) {
+                    return {
+                        label: item.judul_buku,
+                    }
+                }));
+                console.log(cData);
+                var hasil3 = $.ui.autocomplete.filter(cData, request.term);
+                response(hasil3);
             }
         });
     }
